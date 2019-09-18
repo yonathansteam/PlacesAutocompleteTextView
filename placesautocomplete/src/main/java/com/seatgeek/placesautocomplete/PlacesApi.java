@@ -31,6 +31,9 @@ public class PlacesApi {
     private static final String PARAMETER_TYPE = "types";
     private static final String PARAMETER_PLACE_ID = "placeid";
     private static final String PARAMETER_LANGUAGE = "language";
+    private static final String PARAMETER_COMPONENTS = "components";
+
+    private static final String COMPONENT_COUNTRY = "country:";
 
     private static final Long NO_BIAS_RADIUS = 20000000L;
     private static final Location NO_BIAS_LOCATION;
@@ -55,6 +58,9 @@ public class PlacesApi {
 
     @Nullable
     private String languageCode;
+
+    @Nullable
+    private String countryIso;
 
     private boolean locationBiasEnabled = true;
 
@@ -115,7 +121,6 @@ public class PlacesApi {
         this.currentLocation = currentLocation;
     }
 
-
     /**
      *
      * @return the languageCode code
@@ -123,6 +128,16 @@ public class PlacesApi {
     @Nullable
     public String getLanguageCode() {
         return languageCode;
+    }
+
+    /**
+     * Countries must be passed as a two character, ISO 3166-1 Alpha-2 compatible country code.
+     * For example: components=country:fr would restrict your results to places within France.
+     *
+     * @param countryIso iso of country.
+     */
+    public void setCountry(String countryIso) {
+        this.countryIso = countryIso;
     }
 
     /**
@@ -173,6 +188,10 @@ public class PlacesApi {
 
         if (languageCode != null) {
             uriBuilder.appendQueryParameter(PARAMETER_LANGUAGE, languageCode);
+        }
+
+        if(countryIso != null) {
+            uriBuilder.appendQueryParameter(PARAMETER_COMPONENTS, COMPONENT_COUNTRY + countryIso);
         }
 
         return httpClient.executeAutocompleteRequest(uriBuilder.build());

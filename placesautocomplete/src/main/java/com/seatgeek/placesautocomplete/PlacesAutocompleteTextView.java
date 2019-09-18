@@ -508,6 +508,15 @@ public class PlacesAutocompleteTextView extends AppCompatAutoCompleteTextView {
         api.setLanguageCode(this.languageCode);
     }
 
+    /**
+     * Sets country code for restricting search results
+     *
+     * @param countryIso ISO 3166-1 Alpha-2 compatible country code
+     */
+    public void setCountry(String countryIso) {
+        api.setCountry(countryIso);
+    }
+
     // Copied from TextInputEditText to ensure extract mode hint works
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
